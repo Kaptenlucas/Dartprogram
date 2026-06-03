@@ -21,8 +21,19 @@ This is a local dart scoring platform inspired by Autodarts. The project is stru
 
 ### Backend
 
-1. Install dependencies: `pip install -r backend/requirements.txt`
+1. Install dependencies: `pip install -r backend/requirements`
 2. Run the server: `uvicorn backend.main:app --reload`
+
+### Tests
+
+1. Run Python unit tests from the project root:
+```powershell
+c:/Users/Strid/Dartprogram/.venv/Scripts/python.exe -m unittest discover backend/game_engine/tests
+```
+2. If your virtual environment is already active, you can instead run:
+```powershell
+python -m unittest discover backend/game_engine/tests
+```
 
 ### Frontend
 
