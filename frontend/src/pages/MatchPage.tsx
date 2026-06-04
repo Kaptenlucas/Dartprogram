@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GameState, PlayerState } from "../types";
 import { getGameState, submitTurn, undoTurn } from "../services/gameService";
+import DartInputPanel from "../components/DartInputPanel";
 
 const VALID_DARTS = [
   "MISS",
@@ -14,7 +15,7 @@ const VALID_DARTS = [
 
 const MatchPage = () => {
   const [gameState, setGameState] = useState<GameState | null>(null);
-  const [darts, setDarts] = useState(["S20", "S20", "S20"]);
+  const [darts, setDarts] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -33,12 +34,16 @@ const MatchPage = () => {
     loadState();
   }, []);
 
-  const updateDart = (index: number, value: string) => {
-    setDarts((current) => current.map((dart, idx) => (idx === index ? value : dart)));
+  const updateDartsFromPanel = (values: string[]) => {
+    setDarts(values);
   };
 
   const submit = async () => {
     if (!gameState || gameState.winner) return;
+    if (darts.length !== 3) {
+      setError("Please register three darts before submitting.");
+      return;
+    }
 
     setLoading(true);
     setError(null);
@@ -46,6 +51,7 @@ const MatchPage = () => {
     try {
       const state = await submitTurn({ darts });
       setGameState(state);
+      setDarts([]);
     } catch (err) {
       setError((err as Error).message || "Submission failed.");
     } finally {
@@ -121,21 +127,13 @@ const MatchPage = () => {
       {!gameState.winner && (
         <div className="turn-form">
           <h2>Submit Turn</h2>
-          <div className="select-grid">
-            {darts.map((dart, index) => (
-              <label key={index} className="select-field">
-                Dart {index + 1}
-                <select value={dart} onChange={(event) => updateDart(index, event.target.value)}>
-                  {VALID_DARTS.map((option) => (
-                    <option key={option} value={option}>{option}</option>
-                  ))}
-                </select>
-              </label>
-            ))}
+          <div className="input-panel-wrapper">
+            {/* Lazy-load the input panel components */}
+            <DartInputPanel onChange={updateDartsFromPanel} initial={[null, null, null]} />
           </div>
           {error && <div className="error-box">{error}</div>}
           <div className="button-row">
-            <button className="button primary" onClick={submit} disabled={loading}>
+            <button className="button primary" onClick={submit} disabled={loading || darts.length !== 3}>
               {loading ? "Submitting…" : "Submit Turn"}
             </button>
             <button className="button secondary" onClick={undo} disabled={loading}>

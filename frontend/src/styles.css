@@ -163,6 +163,39 @@ h1 {
   border: 1px solid #cbd5e1;
 }
 
+/* Dart input panel styles */
+.dart-slots {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.dart-slot {
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  background: #f8fafc;
+  min-width: 84px;
+  text-align: center;
+  font-weight: 700;
+}
+.dart-slot.empty { color: #94a3b8 }
+
+.multiplier-tabs { display:flex; gap:0.5rem; margin-bottom:0.75rem }
+.multiplier-tabs .tab { padding:0.5rem 0.9rem; border-radius:8px; border:1px solid #cbd5e1; background:#fff }
+.multiplier-tabs .tab.active { background:#2563eb; color:#fff }
+
+.score-grid { display:flex; flex-direction:column; gap:0.5rem; margin-bottom:0.75rem }
+.grid-row { display:flex; gap:0.5rem }
+.grid-cell { flex:1; padding:0.6rem; border-radius:8px; background:#eef2ff; border:1px solid #cbd5e1; cursor:pointer }
+.grid-cell.selected { outline:3px solid #60a5fa }
+.extra-row { margin-top:0.5rem }
+.grid-spacer { flex:1 }
+
+.round-summary { display:flex; justify-content:space-between; align-items:center; margin-top:0.5rem }
+.undo-dart { padding:0.5rem 0.9rem }
+
+.input-panel-wrapper { display:flex; gap:1.5rem; align-items:flex-start }
+.panel-controls { flex:1 }
+
 .button-row {
   display: flex;
   gap: 1rem;
